@@ -3,7 +3,6 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import PopupInfo from './PopupInfo';
-import ReviewList from './ReviewList';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function PopupDetail() {
@@ -12,7 +11,6 @@ function PopupDetail() {
   return (
     <div>
       <PopupInfo />
-      <ReviewList popupId={id} />
     </div>
   );
 }

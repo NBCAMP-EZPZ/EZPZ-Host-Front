@@ -73,21 +73,30 @@ function PopupInfo() {
               />
             ))}
           </div>
-          <div className="d-flex justify-content-end mt-3">
-            <button
-              className="btn btn-primary me-2"
-              style={{ backgroundColor: primaryColor }}
-              onClick={() => navigate(`/popup/${id}/items`)}
-            >
-              굿즈 페이지
-            </button>
+          <div className="d-flex justify-content-between mt-3">
             <button
               className="btn btn-primary"
               style={{ backgroundColor: primaryColor }}
-              onClick={() => navigate(`/popup/${id}/reservations`)}
+              onClick={() => navigate(`/host/popup/${id}/edit`)}
             >
-              예약 페이지
+              수정
             </button>
+            <div>
+              <button
+                className="btn btn-primary me-2"
+                style={{ backgroundColor: primaryColor }}
+                onClick={() => navigate(`/host/popup/${id}/items`)}
+              >
+                굿즈 페이지
+              </button>
+              <button
+                className="btn btn-primary"
+                style={{ backgroundColor: primaryColor }}
+                onClick={() => navigate(`/host/popup/${id}/reservations`)}
+              >
+                예약 페이지
+              </button>
+            </div>
           </div>
         </div>
       </div>
