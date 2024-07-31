@@ -1,65 +1,38 @@
 .container {
-  margin-top: 2rem;
-}
-
-.title-spacing {
-  margin-top: 40px;
-  margin-bottom: 20px;
-}
-
-.dropdown-container {
-  display: flex;
-  gap: 1rem;
-}
-
-.dropdown-item {
-  flex: 1;
-}
-
-.custom-dropdown {
-  width: 100%;
+  max-width: 1600px; /* 전체 폭을 늘리기 */
 }
 
 .item-list {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  justify-content: flex-start; /* 왼쪽 정렬을 위한 속성 */
+  justify-content: flex-start; /* 왼쪽부터 정렬 */
 }
 
 .item-card {
-  width: calc(33.333% - 1rem);
-  margin-bottom: 1rem;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* 카드에 약간의 그림자 추가 */
-  border-radius: 8px; /* 둥근 모서리 */
+  flex: 1 1 calc(25% - 1rem); /* 한 줄에 4개씩 */
+  max-width: calc(25% - 1rem); /* 카드의 가로 길이를 늘리기 */
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
 }
 
 .item-card img {
   width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-top-left-radius: 8px; /* 둥근 모서리 */
-  border-top-right-radius: 8px; /* 둥근 모서리 */
+  height: auto;
 }
 
 .item-card .card-body {
-  padding: 1rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
 }
 
-.item-card .card-title {
-  font-size: 1.25rem;
-  font-weight: bold;
-  color: #071952; /* primary color */
-}
-
-.item-card .card-text {
-  font-size: 1rem;
-}
-
-.error-message {
-  color: red;
-  font-weight: bold;
-  text-align: center;
+.title-spacing {
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
 .pagination {
@@ -79,4 +52,17 @@
 .pagination-btn.btn-current {
   background-color: #071952;
   color: #fff;
+}
+
+.dropdown-container {
+  display: flex;
+  gap: 1rem;
+}
+
+.dropdown-item {
+  flex: 1;
+}
+
+.custom-dropdown {
+  width: 100%;
 }

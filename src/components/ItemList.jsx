@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getItems } from '../api/items';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../components/styles/ItemList.css';
@@ -13,11 +14,12 @@ function ItemList() {
   const [totalPages, setTotalPages] = useState(0);
   const [popupId, setPopupId] = useState('all');
   const [itemStatus, setItemStatus] = useState('all');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const data = await getItems(popupId, itemStatus, page);
+        const data = await getItems(popupId, itemStatus, page, 12); // 한 페이지에 12개 아이템 표시
         setItems(data.content);
         setTotalPages(data.totalPages);
         setError(null); // 에러 상태 초기화
@@ -47,6 +49,10 @@ function ItemList() {
   const handleItemStatusChange = (e) => {
     setItemStatus(e.target.value);
     setPage(0); // Reset page number when itemStatus changes
+  };
+
+  const handleItemClick = (itemId) => {
+    navigate(`/host/item/${itemId}`); // 상세 페이지로 이동
   };
 
   if (loading) {
@@ -81,7 +87,7 @@ function ItemList() {
           <div className="error-message">{error}</div>
         ) : (
           items.map((item) => (
-            <div key={item.itemId} className="item-card card mb-3">
+            <div key={item.itemId} className="item-card card mb-3" onClick={() => handleItemClick(item.itemId)}> {/* 카드 클릭 이벤트 추가 */}
               <img src={item.image} className="card-img-top" alt={item.name} />
               <div className="card-body">
                 <h5 className="card-title">{item.name}</h5>

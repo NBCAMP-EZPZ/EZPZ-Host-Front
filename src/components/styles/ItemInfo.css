@@ -1,0 +1,42 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  .card-img-top {
+    width: 100%;
+    height: auto;
+  }
+  
+  .card-body {
+    padding: 20px;
+  }
+  
+  .card-title {
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: #071952;
+  }
+  
+  .card-text {
+    font-size: 1rem;
+    margin: 10px 0;
+  }
+  
+  @media (max-width: 576px) {
+    .card-title {
+      font-size: 1.5rem;
+    }
+  
+    .card-text {
+      font-size: 0.875rem;
+    }
+  }
+  
