@@ -47,3 +47,26 @@
     color: #dc3545;
   }
   
+  .status-container {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .item-status {
+    background-color: #ffc107;
+    color: #212529;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+  }
+
+  .status-change-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+  }
+
+  .btn-secondary {
+    white-space: nowrap;
+  }

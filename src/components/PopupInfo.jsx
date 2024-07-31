@@ -105,7 +105,7 @@ function PopupInfo() {
                 style={{ backgroundColor: '#dc3545' }}
                 onClick={handleDelete}
               >
-                삭제
+                취소
               </button>
             </div>
             <div>
