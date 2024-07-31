@@ -42,7 +42,7 @@ function Header({ isLoggedIn }) {
               variant="secondary"
             >
               <Dropdown.Item onClick={() => navigate('/host')}>팝업 관리</Dropdown.Item>
-              <Dropdown.Item onClick={() => navigate('/host/goods-management')}>굿즈 관리</Dropdown.Item>
+              <Dropdown.Item onClick={() => navigate('/host/items')}>굿즈 관리</Dropdown.Item>
               <Dropdown.Item onClick={() => navigate('/host/reservations')}>예약 관리</Dropdown.Item>
               <Dropdown.Item onClick={() => navigate('/host/orders')}>주문 관리</Dropdown.Item>
             </DropdownButton>
