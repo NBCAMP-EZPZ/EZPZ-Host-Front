@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getPopupDetail } from '../api/popups';
+import { getPopupDetail, deletePopup } from '../api/popups'; // deletePopup 함수 추가
 import Modal from 'react-bootstrap/Modal';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../components/styles/PopupInfo.css';
@@ -38,6 +38,18 @@ function PopupInfo() {
 
   const handleClose = () => setShowModal(false);
 
+  const handleDelete = async () => {
+    if (window.confirm("삭제 시 관련 데이터가 모두 지워집니다. 정말 삭제하시겠습니까?")) {
+      try {
+        await deletePopup(id);
+        alert("성공적으로 삭제되었습니다.");
+        navigate('/host');
+      } catch (error) {
+        alert("삭제 실패: " + error.message);
+      }
+    }
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -51,7 +63,13 @@ function PopupInfo() {
       <div className="card">
         <img src={popup.thumbnailUrl} className="card-img-top" alt={popup.name} />
         <div className="card-body">
-          <h3 className="card-title">{popup.name}</h3>
+          <div className="d-flex justify-content-between align-items-center">
+            <h3 className="card-title">{popup.name}</h3>
+            <div className="status-container">
+              <span className="approval-status">{popup.approvalStatus}</span>
+              <span className="popup-status">{popup.popupStatus}</span>
+            </div>
+          </div>
           <h5 className="card-text">{popup.description}</h5>
           
           <hr />
@@ -74,13 +92,22 @@ function PopupInfo() {
             ))}
           </div>
           <div className="d-flex justify-content-between mt-3">
-            <button
-              className="btn btn-primary"
-              style={{ backgroundColor: primaryColor }}
-              onClick={() => navigate(`/host/popup/${id}/edit`)}
-            >
-              수정
-            </button>
+            <div>
+              <button
+                className="btn btn-primary"
+                style={{ backgroundColor: primaryColor }}
+                onClick={() => navigate(`/host/popup/${id}/edit`)}
+              >
+                수정
+              </button>
+              <button
+                className="btn btn-danger ms-2"
+                style={{ backgroundColor: '#dc3545' }}
+                onClick={handleDelete}
+              >
+                삭제
+              </button>
+            </div>
             <div>
               <button
                 className="btn btn-primary me-2"

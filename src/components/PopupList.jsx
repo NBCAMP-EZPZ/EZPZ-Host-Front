@@ -76,6 +76,7 @@ function PopupList() {
             <option value="in_progress">진행 중</option>
             <option value="scheduled">오픈 전</option>
             <option value="completed">종료</option>
+            <option value="canceled">취소</option>
           </select>
         </div>
         <div className="dropdown-item">

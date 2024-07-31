@@ -54,3 +54,15 @@ export const updatePopup = async (id, data) => {
     throw error;
   }
 };
+
+export const deletePopup = async (id) => {
+  try {
+    const response = await axiosInstance.patch(`/api/v1/popups/${id}`);
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.message) {
+      throw new Error(error.response.data.message);
+    }
+    throw error;
+  }
+};
