@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { logout } from '../api/auth';
-import { FaUser } from 'react-icons/fa'; // FontAwesome 아이콘 추가
+import { FaUser, FaBars } from 'react-icons/fa'; // FontAwesome 아이콘 추가
 import { Dropdown, DropdownButton } from 'react-bootstrap'; // React Bootstrap 추가
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../components/styles/Header.css';
@@ -34,6 +34,17 @@ function Header({ isLoggedIn }) {
               <Dropdown.Item as={Link} to="/host/reservations">예약 내역 보기</Dropdown.Item>
               <Dropdown.Divider />
               <Dropdown.Item onClick={handleLogout}>로그아웃</Dropdown.Item>
+            </DropdownButton>
+            <DropdownButton
+              alignRight
+              title={<FaBars style={{ fontSize: '1.5rem' }} />}
+              id="dropdown-menu-align-right"
+              variant="secondary"
+            >
+              <Dropdown.Item onClick={() => navigate('/host')}>팝업 관리</Dropdown.Item>
+              <Dropdown.Item onClick={() => navigate('/host/goods-management')}>굿즈 관리</Dropdown.Item>
+              <Dropdown.Item onClick={() => navigate('/host/reservations')}>예약 관리</Dropdown.Item>
+              <Dropdown.Item onClick={() => navigate('/host/orders')}>주문 관리</Dropdown.Item>
             </DropdownButton>
           </>
         ) : (

@@ -11,7 +11,7 @@ export const login = async (username, password) => {
     } catch (error) {
         throw error;
     }
-}
+};
 
 export const signup = async (userData) => {
     try {
