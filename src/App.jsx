@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Header from './components/Header';
 import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
@@ -21,14 +21,14 @@ function App() {
 
   return (
     <Router>
-      <Header isLoggedIn={isLoggedIn} />
+      <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} /> {/* setIsLoggedIn 전달 */}
       <Routes>
-        <Route path="/host" element={<PopupList />} />
+        <Route path="/host" element={isLoggedIn ? <PopupList /> : <Navigate to="/host/login" />} />
         <Route path="/host/login" element={<LoginForm setIsLoggedIn={setIsLoggedIn} />} /> {/* setIsLoggedIn 전달 */}
         <Route path="/host/signup" element={<SignupForm />} />
-        <Route path="/host/popup/:id" element={<PopupDetail />} />
-        <Route path="/host/orders" element={<OrderList />} />
-        <Route path="/host/reservations" element={<ReservationList />} />
+        <Route path="/host/popup/:id" element={isLoggedIn ? <PopupDetail /> : <Navigate to="/host/login" />} />
+        <Route path="/host/orders" element={isLoggedIn ? <OrderList /> : <Navigate to="/host/login" />} />
+        <Route path="/host/reservations" element={isLoggedIn ? <ReservationList /> : <Navigate to="/host/login" />} />
       </Routes>
     </Router>
   );

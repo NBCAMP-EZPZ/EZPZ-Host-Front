@@ -10,7 +10,7 @@ function LoginPage({ isLoggedIn, setIsLoggedIn }) {
   useEffect(() => {
     if (isLoggedIn) {
       alert('이미 로그인된 상태입니다.');
-      navigate('/');
+      navigate('/host');
     }
   }, [isLoggedIn, navigate]);
 

@@ -1,19 +1,35 @@
-/* src/components/PopupList.css */
-
 .popup-list {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
+  gap: 1rem;
+  justify-content: flex-start; /* 왼쪽 정렬 */
 }
 
 .popup-card {
-  width: 300px;
+  width: calc(25% - 1rem);
+  margin-bottom: 1rem;
 }
 
 .card-img-top {
-  height: 200px;
+  max-height: 150px;
   object-fit: cover;
+}
+
+.custom-dropdown {
+  max-width: 200px; /* 원하는 최대 너비 설정 */
+}
+
+.custom-dropdown select {
+  font-size: 0.875rem; /* 폰트 크기 조절 */
+}
+
+.title-spacing {
+  margin-top: 40px; /* 제목 위쪽에 여백 추가 */
+  margin-bottom: 20px; /* 제목 아래쪽 여백 */
+}
+
+.popup-list .popup-card {
+  cursor: pointer; /* 커서가 포인터로 변경되어 클릭 가능하게 함 */
 }
 
 .pagination {
@@ -35,30 +51,13 @@
   color: #fff;
 }
 
-/* src/components/PopupList.css */
-
-.custom-dropdown {
-  max-width: 200px; /* 원하는 최대 너비 설정 */
+.dropdown-container {
+  display: flex;
+  gap: 1rem; /* 드롭다운 메뉴 간격 설정 */
+  justify-content: flex-start; /* 왼쪽 정렬 */
 }
 
-.custom-dropdown select {
-  font-size: 0.875rem; /* 폰트 크기 조절 */
-}
-
-.title-spacing {
-  margin-top: 40px; /* 제목 위쪽에 여백 추가 */
-  margin-bottom: 20px; /* 제목 아래쪽 여백 */
-}
-
-.popup-list .popup-card {
-  cursor: pointer; /* 커서가 포인터로 변경되어 클릭 가능하게 함 */
-}
-
-.pagination-btn {
-  margin: 0 2px; /* 버튼 사이의 간격을 조절 */
-}
-
-.btn-current {
-  background-color: #071952; /* 현재 페이지 버튼 색상 */
-  color: #fff;
+.dropdown-item {
+  flex: 1; /* 드롭다운 메뉴가 컨테이너 안에서 정렬되도록 함 */
+  max-width: 200px; /* 각 드롭다운의 최대 너비 설정 */
 }

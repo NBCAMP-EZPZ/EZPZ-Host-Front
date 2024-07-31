@@ -42,7 +42,7 @@ function SignupForm() {
       await signup({ username, password, name, email, phoneNumber });
       setMessage('Signup successful!');
       alert('회원가입이 완료되었습니다! 로그인 페이지로 이동합니다.'); // 회원가입 완료 알림
-      navigate('/login'); // 회원가입 성공 후 로그인 페이지로 이동
+      navigate('/host/login'); // 회원가입 성공 후 로그인 페이지로 이동
     } catch (error) {
       if (error.message) {
         setMessage(error.message); // 서버에서 받은 에러 메시지를 설정

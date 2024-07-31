@@ -1,7 +1,5 @@
-// src/components/PopupInfo.jsx
-
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { getPopupDetail } from '../api/popups';
 import Modal from 'react-bootstrap/Modal';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -16,6 +14,7 @@ function PopupInfo() {
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPopupDetail = async () => {
@@ -33,7 +32,7 @@ function PopupInfo() {
   }, [id]);
 
   const handleImageClick = (image) => {
-    setSelectedImage(image);
+    setSelectedImage(image.url);
     setShowModal(true);
   };
 
@@ -52,17 +51,21 @@ function PopupInfo() {
       <div className="card">
         <img src={popup.thumbnailUrl} className="card-img-top" alt={popup.name} />
         <div className="card-body">
-          <h5 className="card-title">{popup.name}</h5>
-          <p className="card-text">{popup.description}</p>
-          <p className="card-text"><strong>Address:</strong> {popup.address}</p>
-          <p className="card-text"><strong>Start Date:</strong> {new Date(popup.startDate).toLocaleString()}</p>
-          <p className="card-text"><strong>End Date:</strong> {new Date(popup.endDate).toLocaleString()}</p>
-          <p className="card-text"><strong>Likes:</strong> {popup.likeCount}</p>
+          <h3 className="card-title">{popup.name}</h3>
+          <h5 className="card-text">{popup.description}</h5>
+          
+          <hr />
+
+          <p className="card-text"><strong>주소:</strong> {popup.address}</p>
+          <p className="card-text"><strong>시작 날짜:</strong> {new Date(popup.startDate).toLocaleString()}</p>
+          <p className="card-text"><strong>종료 날짜:</strong> {new Date(popup.endDate).toLocaleString()}</p>
+          <p className="card-text"><strong>좋아요 수:</strong> {popup.likeCount}</p>
+
           <div className="popup-images">
             {popup.images.map((image, index) => (
               <img
                 key={index}
-                src={image}
+                src={image.url}
                 alt={`Popup image ${index + 1}`}
                 className="popup-image"
                 onClick={() => handleImageClick(image)}
@@ -71,8 +74,20 @@ function PopupInfo() {
             ))}
           </div>
           <div className="d-flex justify-content-end mt-3">
-            <Link to="/goods" className="btn btn-primary me-2" style={{ backgroundColor: primaryColor }}>굿즈 페이지</Link>
-            <Link to="/reservations" className="btn btn-primary" style={{ backgroundColor: primaryColor }}>예약 페이지</Link>
+            <button
+              className="btn btn-primary me-2"
+              style={{ backgroundColor: primaryColor }}
+              onClick={() => navigate(`/popup/${id}/items`)}
+            >
+              굿즈 페이지
+            </button>
+            <button
+              className="btn btn-primary"
+              style={{ backgroundColor: primaryColor }}
+              onClick={() => navigate(`/popup/${id}/reservations`)}
+            >
+              예약 페이지
+            </button>
           </div>
         </div>
       </div>

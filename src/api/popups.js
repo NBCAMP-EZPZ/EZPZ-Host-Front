@@ -1,8 +1,12 @@
 import axiosInstance from './axiosInstance';
 
-export const getPopups = async (popupStatus = 'all', page = 0) => {
+export const getPopups = async (approvalStatus = 'all', popupStatus = 'all', page = 0) => {
   try {
-    const params = popupStatus === 'all' ? { page } : { popupStatus, page };
+    const params = {
+      approvalStatus,
+      popupStatus,
+      page
+    };
     const response = await axiosInstance.get('/api/v1/popups', { params });
     return response.data.data;
   } catch (error) {
