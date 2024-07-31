@@ -1,23 +1,66 @@
-/* src/components/OrderList.css */
+.order-list {
+  margin-top: 1rem;
+}
 
-.order {
-    background-color: #f9f9f9;
-    padding: 40px;
-    margin: 0 40px; /* 좌우 마진 추가 */
-  }
-  
-  .order p {
-    margin: 0;
-  }
-  
-  .pagination-btn {
-    min-width: 50px;
-    height: 40px;
-    margin: 0 2px;
-    font-size: 1rem;
-    border: none; /* 테두리 제거 */
-  }
-  
-  .orders {
-    margin: 0 15px; /* 전체 컨테이너에 좌우 마진 추가 */
-  }
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 10px; /* 테두리를 둥글게 */
+  overflow: hidden; /* 테두리 둥글게 유지 */
+}
+
+.table-header {
+  background-color: #5BC8F7; /* 헤더 색상 */
+  color: #fff;
+}
+
+.table th, .table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.table tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination-btn {
+  min-width: 50px;
+  height: 40px;
+  margin: 0 2px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px; /* 테두리를 둥글게 */
+}
+
+.pagination-btn.btn-current {
+  background-color: #071952;
+  color: #fff;
+}
+
+.dropdown-container {
+  display: flex;
+  gap: 1rem;
+}
+
+.dropdown-item {
+  flex: 1;
+}
+
+.custom-dropdown {
+  width: 100%;
+  border-radius: 5px; /* 테두리를 둥글게 */
+}
+
+.error-message {
+  text-align: center;
+  margin-top: 1rem;
+  color: red;
+  font-weight: bold;
+}
