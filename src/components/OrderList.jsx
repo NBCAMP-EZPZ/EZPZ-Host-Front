@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getOrders } from '../api/orders';
 import { getItems } from '../api/items';
+import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../components/styles/OrderList.css';
 
@@ -17,6 +18,7 @@ function OrderList() {
   const [itemId, setItemId] = useState(-1);
   const [orderStatus, setOrderStatus] = useState('all');
   const [items, setItems] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -100,6 +102,10 @@ function OrderList() {
     fetchOrdersForItem();
   };
 
+  const handleOrderClick = (orderId) => {  
+    navigate(`/host/order/${orderId}`);
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -156,7 +162,7 @@ function OrderList() {
             </thead>
             <tbody>
               {orders.map((order) => (
-                <tr key={order.orderId}>
+                <tr key={order.orderId} onClick={() => handleOrderClick(order.orderId)}>
                   <td>{order.orderId}</td>
                   <td>{order.totalPrice}</td>
                   <td>{order.orderStatus}</td>

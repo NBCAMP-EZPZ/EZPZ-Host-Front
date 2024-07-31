@@ -8,6 +8,7 @@ import PopupDetail from './components/PopupDetail';
 import OrderList from './components/OrderList';
 import ReservationList from './components/ReservationList';
 import PopupEdit from './components/PopupEdit';
+import OrderInfo from './components/OrderInfo';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 관리
@@ -30,6 +31,7 @@ function App() {
         <Route path="/host/popup/:id" element={isLoggedIn ? <PopupDetail /> : <Navigate to="/host/login" />} />
         <Route path="/host/popup/:id/edit" element={<PopupEdit />} />
         <Route path="/host/orders" element={isLoggedIn ? <OrderList /> : <Navigate to="/host/login" />} />
+        <Route path="/host/order/:orderId" element={<OrderInfo />} />
         <Route path="/host/reservations" element={isLoggedIn ? <ReservationList /> : <Navigate to="/host/login" />} />
       </Routes>
     </Router>
