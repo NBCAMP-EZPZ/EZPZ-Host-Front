@@ -1,18 +1,15 @@
 .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+    max-width: 900px;
   }
   
   .card {
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
   
   .card-img-top {
-    width: 100%;
-    height: auto;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
   }
   
   .card-body {
@@ -27,16 +24,26 @@
   
   .card-text {
     font-size: 1rem;
-    margin: 10px 0;
+    color: #333;
   }
   
-  @media (max-width: 576px) {
-    .card-title {
-      font-size: 1.5rem;
-    }
+  .btn-primary {
+    background-color: #071952;
+    border: none;
+    cursor: pointer;
+  }
   
-    .card-text {
-      font-size: 0.875rem;
-    }
+  .btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .is-invalid {
+    border-color: #dc3545;
+  }
+  
+  .invalid-feedback {
+    color: #dc3545;
   }
   

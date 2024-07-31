@@ -19,3 +19,20 @@ export const getItemDetail = async (itemId) => {
       throw error;
     }
   };
+
+  export const updateItem = async (itemId, data) => {
+    try {
+      const formData = new FormData();
+      for (const key in data) {
+        formData.append(key, data[key]);
+      }
+      const response = await axiosInstance.put(`/api/v1/items/${itemId}`, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  };

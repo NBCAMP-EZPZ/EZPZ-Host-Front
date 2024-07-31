@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { getItemDetail } from '../api/items';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../components/styles/ItemInfo.css';
@@ -8,6 +8,7 @@ const primaryColor = '#071952';
 
 function ItemInfo() {
   const { itemId } = useParams();
+  const navigate = useNavigate();
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -45,6 +46,7 @@ function ItemInfo() {
           <p className="card-text">Price: {item.price}</p>
           <p className="card-text">Stock: {item.stock}</p>
           <p className="card-text">Like Count: {item.likeCount}</p>
+          <button className="btn btn-primary" onClick={() => navigate(`/host/item/${itemId}/edit`)}>수정</button>
         </div>
       </div>
     </div>
