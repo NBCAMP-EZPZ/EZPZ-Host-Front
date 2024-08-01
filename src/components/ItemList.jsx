@@ -1,23 +1,45 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { getItems } from '../api/items';
+import { getPopups } from '../api/popups';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../components/styles/ItemList.css';
 
 const primaryColor = '#071952';
 
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
+
 function ItemList() {
+  const query = useQuery();
+  const navigate = useNavigate();
+  
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(parseInt(query.get('page')) || 0);
   const [totalPages, setTotalPages] = useState(0);
-  const [popupId, setPopupId] = useState('all');
-  const [itemStatus, setItemStatus] = useState('all');
-  const navigate = useNavigate();
+  const [popupId, setPopupId] = useState(query.get('popupId') || 'all');
+  const [itemStatus, setItemStatus] = useState(query.get('itemStatus') || 'all');
+  const [popups, setPopups] = useState([]);
+
+  useEffect(() => {
+    const fetchPopups = async () => {
+      try {
+        const data = await getPopups('APPROVED', 'all');
+        setPopups(data.content || []);
+      } catch (error) {
+        console.error('Failed to fetch popups:', error);
+      }
+    };
+
+    fetchPopups();
+  }, []);
 
   useEffect(() => {
     const fetchItems = async () => {
+      setLoading(true);
       try {
         const data = await getItems(popupId, itemStatus, page, 12); // 한 페이지에 12개 아이템 표시
         setItems(data.content);
@@ -39,20 +61,23 @@ function ItemList() {
 
   const handlePageChange = (newPage) => {
     setPage(newPage);
+    navigate(`/host/items?popupId=${popupId}&itemStatus=${itemStatus}&page=${newPage}`);
   };
 
   const handlePopupIdChange = (e) => {
     setPopupId(e.target.value);
-    setPage(0); // Reset page number when popupId changes
+    setPage(0);
+    navigate(`/host/items?popupId=${e.target.value}&itemStatus=${itemStatus}&page=0`);
   };
 
   const handleItemStatusChange = (e) => {
     setItemStatus(e.target.value);
-    setPage(0); // Reset page number when itemStatus changes
+    setPage(0);
+    navigate(`/host/items?popupId=${popupId}&itemStatus=${e.target.value}&page=0`);
   };
 
   const handleItemClick = (itemId) => {
-    navigate(`/host/item/${itemId}`); // 상세 페이지로 이동
+    navigate(`/host/item/${itemId}`);
   };
 
   if (loading) {
@@ -70,7 +95,9 @@ function ItemList() {
           <div className="dropdown-item me-2">
             <select className="form-select custom-dropdown" value={popupId} onChange={handlePopupIdChange}>
               <option value="all">전체 팝업</option>
-              {/* 다른 팝업 옵션들 추가 */}
+              {popups.map((popup) => (
+                <option key={popup.popupId} value={popup.popupId}>{popup.name}</option>
+              ))}
             </select>
           </div>
           <div className="dropdown-item">

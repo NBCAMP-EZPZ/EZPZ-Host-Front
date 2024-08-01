@@ -112,7 +112,7 @@ function PopupInfo() {
               <button
                 className="btn btn-primary me-2"
                 style={{ backgroundColor: primaryColor }}
-                onClick={() => navigate(`/host/popup/${id}/items`)}
+                onClick={() => navigate(`/host/items?popupId=${id}`)}
               >
                 굿즈 페이지
               </button>

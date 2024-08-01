@@ -68,7 +68,7 @@ function PopupCreate() {
     try {
       await createPopup(formData);
       alert('Popup created successfully');
-      navigate('/host/popups'); // Navigate back to popup list page after successful creation
+      navigate('/host'); // Navigate back to popup list page after successful creation
     } catch (error) {
       if (error.response && error.response.data) {
         setFormErrors(error.response.data.errors);
