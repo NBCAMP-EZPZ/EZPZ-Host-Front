@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getPopups } from '../api/popups';
-import { getSlots } from '../api/slots';
+import { getSlots, deleteSlot } from '../api/slots'; // deleteSlot 함수 추가
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../components/styles/SlotList.css';
 
@@ -57,8 +57,23 @@ function SlotList() {
     setPage(0);
   };
 
-  const handleSlotEdit = (slotId) => {
-    navigate(`/host/reservations/slot/${popupId}/${slotId}/edit`);
+  const handleDeleteSlot = async (slotId) => {
+    if (window.confirm("정말 이 슬롯을 삭제하시겠습니까?")) {
+      try {
+        await deleteSlot(popupId, slotId);
+        alert('Slot deleted successfully');
+        // 슬롯 삭제 후 슬롯 목록을 다시 불러옵니다.
+        const data = await getSlots(popupId, page);
+        setSlots(data.content);
+        setTotalPages(data.totalPages);
+      } catch (error) {
+        alert('Delete failed: ' + error.message);
+      }
+    }
+  };
+
+  const handleSlotClick = (slotId) => {
+    navigate(`/host/reservations/slot/${popupId}/${slotId}`);
   };
 
   if (loading) {
@@ -93,7 +108,7 @@ function SlotList() {
             <th>Slot Date</th>
             <th>Slot Time</th>
             <th>Reserved Count</th>
-            <th></th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -104,11 +119,22 @@ function SlotList() {
               <td>{slot.reservedCount}</td>
               <td>
                 <button
-                  className="btn btn-secondary"
-                  onClick={() => handleSlotEdit(slot.id)}
-                  style={{ backgroundColor: primaryColor, color: '#fff' }}
+                  className="btn btn-warning me-2"
+                  onClick={() => navigate(`/host/reservations/slot/${popupId}/${slot.id}/edit`)}
                 >
                   슬롯 수정
+                </button>
+                <button
+                  className="btn btn-danger me-2"
+                  onClick={() => handleDeleteSlot(slot.id)}
+                >
+                  슬롯 삭제
+                </button>
+                <button
+                  className="btn btn-info"
+                  onClick={() => handleSlotClick(slot.id)}
+                >
+                  예약 보기
                 </button>
               </td>
             </tr>

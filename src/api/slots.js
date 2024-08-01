@@ -38,3 +38,22 @@ export const updateSlot = async (popupId, slotId, slotUpdateDto) => {
     throw error;
   }
 };
+
+export const deleteSlot = async (popupId, slotId) => {
+  try {
+    const response = await axiosInstance.delete(`/api/v1/popups/${popupId}/slots/${slotId}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// 슬롯 예약 정보 조회 API 호출 함수
+export const getSlotReservations = async (popupId, slotId) => {
+  try {
+    const response = await axiosInstance.get(`/api/v1/popups/${popupId}/slots/${slotId}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

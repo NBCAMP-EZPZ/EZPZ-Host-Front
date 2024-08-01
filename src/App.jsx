@@ -17,6 +17,7 @@ import SlotList from './components/SlotList';
 import ReservationList from './components/ReservationList';
 import SlotCreate from './components/SlotCreate';
 import SlotUpdate from './components/SlotUpdate';
+import SlotDetail from './components/SlotDetail';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 관리
@@ -50,7 +51,8 @@ function App() {
         <Route path="/host/reservations/slot/:popupId/:slotId/edit" element={isLoggedIn ? <SlotUpdate /> : <Navigate to="/host/login" />} />
         <Route path="/host/popup/slots" element={isLoggedIn ? <SlotList /> : <Navigate to="/host/login" />} />
         <Route path="/host/popup/:popupId/slot/:slotId" element={isLoggedIn ? <ReservationList /> : <Navigate to="/host/login" />} />
-        </Routes>
+        <Route path="/host/reservations/slot/:popupId/:slotId" element={isLoggedIn ? <SlotDetail /> : <Navigate to="/host/login" />} />
+      </Routes>
     </Router>
   );
 }
