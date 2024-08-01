@@ -5,14 +5,16 @@ import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
 import PopupList from './components/PopupList';
 import PopupDetail from './components/PopupDetail';
-import OrderList from './components/OrderList';
-import ReservationList from './components/ReservationList';
+import OrderList from './components/OrderList'; 
 import PopupEdit from './components/PopupEdit';
 import OrderInfo from './components/OrderInfo';
 import ItemList from './components/ItemList';
 import ItemInfo from './components/ItemInfo';
 import ItemEdit from './components/ItemEdit';
 import ItemCreate from './components/ItemCreate';
+import PopupCreate from './components/PopupCreate';
+import SlotList from './components/SlotList'; 
+import ReservationList from './components/ReservationList';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 관리
@@ -36,12 +38,15 @@ function App() {
         <Route path="/host/popup/:id/edit" element={isLoggedIn ? <PopupEdit /> : <Navigate to="/host/login" />} />
         <Route path="/host/orders" element={isLoggedIn ? <OrderList /> : <Navigate to="/host/login" />} />
         <Route path="/host/order/:orderId" element={isLoggedIn ? <OrderInfo /> : <Navigate to="/host/login" />} />
-        <Route path="/host/reservations" element={isLoggedIn ? <ReservationList /> : <Navigate to="/host/login" />} />
+        <Route path="/host/reservations" element={isLoggedIn ? <SlotList /> : <Navigate to="/host/login" />} />
         <Route path="/host/items" element={isLoggedIn ? <ItemList /> : <Navigate to="/host/login" />} />
         <Route path="/host/item/:itemId" element={isLoggedIn ? <ItemInfo /> : <Navigate to="/host/login" />} />
         <Route path="/host/item/:itemId/edit" element={isLoggedIn ? <ItemEdit /> : <Navigate to="/host/login" />} />
         <Route path="/host/item/create" element={isLoggedIn ? <ItemCreate /> : <Navigate to="/host/login" />} />
-      </Routes>
+        <Route path="/host/popup/create" element={isLoggedIn ? <PopupCreate /> : <Navigate to="/host/login" />} />
+        <Route path="/host/popup/slots" element={isLoggedIn ? <SlotList /> : <Navigate to="/host/login" />} />
+        <Route path="/host/popup/:popupId/slot/:slotId" element={isLoggedIn ? <ReservationList /> : <Navigate to="/host/login" />} />
+        </Routes>
     </Router>
   );
 }

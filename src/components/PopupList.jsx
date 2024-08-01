@@ -59,6 +59,10 @@ function PopupList() {
     navigate(`/host/popup/${id}`);
   };
 
+  const handleCreatePopup = () => {
+    navigate('/host/popup/create');
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -87,6 +91,9 @@ function PopupList() {
             <option value="rejected">반려</option>
           </select>
         </div>
+        <button className="btn btn-primary ms-auto" onClick={handleCreatePopup} style={{ backgroundColor: primaryColor, color: '#fff' }}>
+          팝업 등록
+        </button>
       </div>
       <div className="popup-list">
         {error ? (

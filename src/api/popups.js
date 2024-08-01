@@ -66,3 +66,16 @@ export const deletePopup = async (id) => {
     throw error;
   }
 };
+
+export const createPopup = async (data) => {
+  try{
+    const response = await axiosInstance.post(`/api/v1/popups`, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
