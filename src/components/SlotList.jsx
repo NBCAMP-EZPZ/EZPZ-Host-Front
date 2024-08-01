@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { getPopups } from '../api/popups';
 import { getSlots, deleteSlot } from '../api/slots'; // deleteSlot 함수 추가
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -16,8 +16,13 @@ function SlotList() {
   const [popupId, setPopupId] = useState('all');
   const [popups, setPopups] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const initialPopupId = searchParams.get('popupId') || 'all';
+    setPopupId(initialPopupId);
+
     const fetchPopups = async () => {
       try {
         const data = await getPopups('APPROVED', 'all');
@@ -28,7 +33,7 @@ function SlotList() {
     };
 
     fetchPopups();
-  }, []);
+  }, [location.search]);
 
   useEffect(() => {
     const fetchSlots = async () => {
@@ -53,8 +58,10 @@ function SlotList() {
   };
 
   const handlePopupIdChange = (e) => {
-    setPopupId(e.target.value);
+    const newPopupId = e.target.value;
+    setPopupId(newPopupId);
     setPage(0);
+    navigate(`/host/reservations?popupId=${newPopupId}`);
   };
 
   const handleDeleteSlot = async (slotId) => {
