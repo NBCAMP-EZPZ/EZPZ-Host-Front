@@ -43,3 +43,16 @@ export const getItemDetail = async (itemId) => {
       throw error;
     }
   };
+
+  export const createItem = async (popupId, data) => {
+    try{
+      const response = await axiosInstance.post(`/api/v1/popups/${popupId}/items`, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  };

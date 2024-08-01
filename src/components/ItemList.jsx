@@ -65,22 +65,31 @@ function ItemList() {
   return (
     <div className="container mt-5">
       <h3 className="mb-4 title-spacing">아이템 목록 조회</h3>
-      <div className="dropdown-container mb-4">
-        <div className="dropdown-item">
-          <select className="form-select custom-dropdown" value={popupId} onChange={handlePopupIdChange}>
-            <option value="all">전체 팝업</option>
-            {/* 다른 팝업 옵션들 추가 */}
-          </select>
+      <div className="dropdown-container mb-4 d-flex justify-content-between">
+        <div className="d-flex">
+          <div className="dropdown-item me-2">
+            <select className="form-select custom-dropdown" value={popupId} onChange={handlePopupIdChange}>
+              <option value="all">전체 팝업</option>
+              {/* 다른 팝업 옵션들 추가 */}
+            </select>
+          </div>
+          <div className="dropdown-item">
+            <select className="form-select custom-dropdown" value={itemStatus} onChange={handleItemStatusChange}>
+              <option value="all">전체 상태</option>
+              <option value="BEFORE_SALE">판매 전</option>
+              <option value="SALE">판매 중</option>
+              <option value="SALE_END">판매 종료</option>
+              <option value="SOLD_OUT">품절</option>
+            </select>
+          </div>
         </div>
-        <div className="dropdown-item">
-          <select className="form-select custom-dropdown" value={itemStatus} onChange={handleItemStatusChange}>
-            <option value="all">전체 상태</option>
-            <option value="BEFORE_SALE">판매 전</option>
-            <option value="SALE">판매 중</option>
-            <option value="SALE_END">판매 종료</option>
-            <option value="SOLD_OUT">품절</option>
-          </select>
-        </div>
+        <button
+          className="btn btn-primary"
+          onClick={() => navigate('/host/item/create')}
+          style={{ backgroundColor: primaryColor, color: '#fff' }}
+        >
+          상품 등록
+        </button>
       </div>
       <div className="item-list">
         {error ? (

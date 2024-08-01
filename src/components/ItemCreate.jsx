@@ -1,40 +1,37 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { getItemDetail, updateItem } from '../api/items';
+import { useNavigate } from 'react-router-dom';
+import { createItem } from '../api/items'; // getPopups 함수 추가
+import { getPopups } from '../api/popups';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../components/styles/ItemEdit.css';
 
-function ItemEdit() {
-  const { itemId } = useParams();
-  const [item, setItem] = useState(null);
+const primaryColor = '#071952';
+
+function ItemCreate() {
+  const navigate = useNavigate();
+  const [popups, setPopups] = useState([]);
+  const [selectedPopupId, setSelectedPopupId] = useState('');
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [stock, setStock] = useState('');
   const [image, setImage] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [formErrors, setFormErrors] = useState({});
-  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchItemDetail = async () => {
+    const fetchPopups = async () => {
       try {
-        const data = await getItemDetail(itemId);
-        setItem(data);
-        setName(data.name);
-        setDescription(data.description);
-        setPrice(data.price);
-        setStock(data.stock);
-        setLoading(false);
+        const data = await getPopups('APPROVED', 'all');
+        setPopups(data.content);
+        if (data.content.length > 0) {
+          setSelectedPopupId(data.content[0].id); // 기본으로 첫 번째 팝업 선택
+        }
       } catch (error) {
-        setError(error.message);
-        setLoading(false);
+        console.error("Failed to fetch popups", error);
       }
     };
 
-    fetchItemDetail();
-  }, [itemId]);
+    fetchPopups();
+  }, []);
 
   const validateForm = () => {
     const errors = {};
@@ -46,58 +43,72 @@ function ItemEdit() {
     return errors;
   };
 
-  const handleSave = async (e) => {
+  const handleFileChange = (e) => {
+    setImage(e.target.files[0]);
+  };
+
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
+
     const errors = validateForm();
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
       return;
     }
     setFormErrors({});
-    
-    const formData = new FormData(); 
-    formData.append('name', name || item.name); 
-    formData.append('description', description || item.description);
-    formData.append('price', price || item.price);
-    formData.append('stock', stock || item.stock);
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('description', description);
+    formData.append('price', price);
+    formData.append('stock', stock);
+    formData.append('popupId', selectedPopupId); // 선택된 팝업 ID 추가
     if (image) {
       formData.append('image', image);
     }
 
     try {
-      await updateItem(itemId, formData);
-      navigate(`/host/item/${itemId}`);
+      await createItem(selectedPopupId, formData);
+      alert('Item created successfully');
+      navigate('/host/items'); // Navigate back to item list page after successful creation
     } catch (error) {
-      setError(error.message);
+      if (error.response && error.response.data) {
+        setFormErrors(error.response.data.errors);
+      } else {
+        alert('Create failed: ' + error.message);
+      }
     }
   };
-
-  const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
-  };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
 
   return (
     <div className="container mt-5">
       <div className="form-container">
-        <h3>상품 수정</h3>
-        <form onSubmit={handleSave}>
+        <h3>상품 등록</h3>
+        <form onSubmit={handleFormSubmit}>
           <div className="mb-3">
-            <label htmlFor="name" className="form-label">상품명</label>
+            <label htmlFor="popupId" className="form-label">팝업 선택</label>
+            <select
+              className="form-select"
+              id="popupId"
+              value={selectedPopupId}
+              onChange={(e) => setSelectedPopupId(e.target.value)}
+              required
+            >
+              {popups.map((popup) => (
+                <option key={popup.popupId} value={popup.popupId}>
+                  {popup.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="mb-3">
+            <label htmlFor="name" className="form-label">이름</label>
             <input
               type="text"
               className={`form-control ${formErrors.name ? 'is-invalid' : ''}`}
               id="name"
-              placeholder={item.name}
-              value={name}
+              name="name"
               onChange={(e) => setName(e.target.value)}
+              required
             />
             {formErrors.name && <div className="invalid-feedback">{formErrors.name}</div>}
           </div>
@@ -106,10 +117,10 @@ function ItemEdit() {
             <textarea
               className={`form-control ${formErrors.description ? 'is-invalid' : ''}`}
               id="description"
-              rows="3"
-              placeholder={item.description}
-              value={description}
+              name="description"
               onChange={(e) => setDescription(e.target.value)}
+              rows="3"
+              required
             ></textarea>
             {formErrors.description && <div className="invalid-feedback">{formErrors.description}</div>}
           </div>
@@ -119,9 +130,9 @@ function ItemEdit() {
               type="number"
               className={`form-control ${formErrors.price ? 'is-invalid' : ''}`}
               id="price"
-              placeholder={item.price}
-              value={price}
+              name="price"
               onChange={(e) => setPrice(e.target.value)}
+              required
             />
             {formErrors.price && <div className="invalid-feedback">{formErrors.price}</div>}
           </div>
@@ -131,9 +142,9 @@ function ItemEdit() {
               type="number"
               className={`form-control ${formErrors.stock ? 'is-invalid' : ''}`}
               id="stock"
-              placeholder={item.stock}
-              value={stock}
+              name="stock"
               onChange={(e) => setStock(e.target.value)}
+              required
             />
             {formErrors.stock && <div className="invalid-feedback">{formErrors.stock}</div>}
           </div>
@@ -143,15 +154,17 @@ function ItemEdit() {
               type="file"
               className={`form-control ${formErrors.image ? 'is-invalid' : ''}`}
               id="image"
-              onChange={handleImageChange}
+              name="image"
+              onChange={handleFileChange}
+              required
             />
             {formErrors.image && <div className="invalid-feedback">{formErrors.image}</div>}
           </div>
-          <button type="submit" className="btn btn-primary">저장</button>
+          <button type="submit" className="btn btn-primary">등록</button>
         </form>
       </div>
     </div>
   );
 }
 
-export default ItemEdit;
+export default ItemCreate;
