@@ -19,3 +19,12 @@ export const getSlot = async (popupId, slotId) => {
       throw error;
     }
   };
+
+  export const createSlot = async (popupId, data) => {
+    try{
+      const response = await axiosInstance.post(`/api/v1/popups/${popupId}/slots`, data);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  };

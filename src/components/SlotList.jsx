@@ -8,93 +8,103 @@ import '../components/styles/SlotList.css';
 const primaryColor = '#071952';
 
 function SlotList() {
-  const [popups, setPopups] = useState([]);
-  const [selectedPopup, setSelectedPopup] = useState('');
   const [slots, setSlots] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+  const [popupId, setPopupId] = useState('all');
+  const [popups, setPopups] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPopups = async () => {
       try {
         const data = await getPopups('APPROVED', 'all');
-        setPopups(data.content);
+        setPopups(data.content || []);
       } catch (error) {
-        console.error('팝업을 가져오는 중 오류 발생:', error);
+        console.error('Failed to fetch popups:', error);
       }
     };
 
     fetchPopups();
   }, []);
 
-  const handlePopupChange = async (e) => {
-    const popupId = e.target.value;
-    setSelectedPopup(popupId);
-    setPage(0);
-    fetchSlots(popupId, 0);
-  };
+  useEffect(() => {
+    const fetchSlots = async () => {
+      setLoading(true);
+      try {
+        const data = await getSlots(popupId, page);
+        setSlots(data.content);
+        setTotalPages(data.totalPages);
+        setError(null);
+      } catch (error) {
+        setError("Request failed with status code " + (error.response ? error.response.status : error.message));
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const fetchSlots = async (popupId, page) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await getSlots(popupId, page);
-      setSlots(data.content);
-      setTotalPages(data.totalPages);
-    } catch (error) {
-      setError('슬롯을 가져오는 중 오류 발생');
-    } finally {
-      setLoading(false);
-    }
-  };
+    fetchSlots();
+  }, [page, popupId]);
 
   const handlePageChange = (newPage) => {
     setPage(newPage);
-    fetchSlots(selectedPopup, newPage);
   };
 
-  const handleSlotClick = (popupId, slotId) => {
-    navigate(`/host/popup/${popupId}/slot/${slotId}`);
+  const handlePopupIdChange = (e) => {
+    setPopupId(e.target.value);
+    setPage(0);
   };
+
+  const handleSlotClick = (slotId) => {
+    navigate(`/host/reservations/slot/${slotId}`);
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  const startPage = Math.floor(page / 10) * 10;
+  const endPage = Math.min(startPage + 10, totalPages);
 
   return (
     <div className="container mt-5">
-      <div className="dropdown-container mb-4">
-        <select className="form-select" value={selectedPopup} onChange={handlePopupChange}>
-          <option value="">팝업 선택</option>
+      <div className="d-flex justify-content-between mb-4">
+        <select className="form-select custom-dropdown" value={popupId} onChange={handlePopupIdChange} style={{ width: '200px' }}>
+          <option value="all">전체 팝업</option>
           {popups.map((popup) => (
             <option key={popup.popupId} value={popup.popupId}>{popup.name}</option>
           ))}
         </select>
+        {popupId !== 'all' && (
+          <button
+            className="btn btn-primary"
+            onClick={() => navigate(`/host/reservations/create?popupId=${popupId}`)}
+            style={{ backgroundColor: primaryColor, color: '#fff' }}
+          >
+            슬롯 등록
+          </button>
+        )}
       </div>
-      {error && <div className="alert alert-danger">{error}</div>}
-      {loading ? (
-        <div>Loading...</div>
-      ) : (
-        <div className="table-responsive">
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Slot Date</th>
-                <th>Slot Time</th>
-                <th>Reserved Count</th>
-              </tr>
-            </thead>
-            <tbody>
-              {slots.map((slot) => (
-                <tr key={slot.id} onClick={() => handleSlotClick(selectedPopup, slot.id)} style={{ cursor: 'pointer' }}>
-                  <td>{slot.slotDate}</td>
-                  <td>{slot.slotTime}</td>
-                  <td>{slot.reservedCount}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+      <table className="table">
+        <thead>
+          <tr>
+            <th>Slot Date</th>
+            <th>Slot Time</th>
+            <th>Reserved Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          {slots.map((slot) => (
+            <tr key={slot.id} onClick={() => handleSlotClick(slot.id)} style={{ cursor: 'pointer' }}>
+              <td>{slot.slotDate}</td>
+              <td>{slot.slotTime}</td>
+              <td>{slot.reservedCount}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
       <div className="pagination mt-4">
         <button
           className="btn pagination-btn"
@@ -104,17 +114,17 @@ function SlotList() {
         >
           이전
         </button>
-        {[...Array(totalPages).keys()].map((pageIndex) => (
+        {[...Array(endPage - startPage).keys()].map((pageIndex) => (
           <button
-            key={pageIndex}
-            className={`btn pagination-btn ${pageIndex === page ? 'btn-current' : ''}`}
-            onClick={() => handlePageChange(pageIndex)}
+            key={startPage + pageIndex}
+            className={`btn pagination-btn ${startPage + pageIndex === page ? 'btn-current' : ''}`}
+            onClick={() => handlePageChange(startPage + pageIndex)}
             style={{
-              backgroundColor: pageIndex === page ? primaryColor : 'transparent',
-              color: pageIndex === page ? '#fff' : primaryColor,
+              backgroundColor: startPage + pageIndex === page ? primaryColor : 'transparent',
+              color: startPage + pageIndex === page ? '#fff' : primaryColor,
             }}
           >
-            {pageIndex + 1}
+            {startPage + pageIndex + 1}
           </button>
         ))}
         <button
