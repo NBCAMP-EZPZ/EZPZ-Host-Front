@@ -52,8 +52,9 @@ function PopupEdit() {
     if (!phoneNumber) errors.phoneNumber = '담당자 번호를 입력해주세요.';
     if (!startDate) errors.startDate = '시작 일자를 입력해주세요.';
     if (!endDate) errors.endDate = '종료 일자를 입력해주세요.';
-    if (!thumbnail) errors.thumbnail = '대표 사진을 등록해주세요.';
-    if (images.length < 1 || images.length > 3) errors.images = '추가 사진은 최소 1개, 최대 3개까지 등록 가능합니다.';
+    if (!thumbnail && !popup.thumbnail) errors.thumbnail = '대표 사진을 등록해주세요.';
+    if (images.length < 1 && !popup.images.length) errors.images = '추가 사진을 최소 1개 이상 등록해주세요.';
+    if (images.length > 3) errors.images = '추가 사진은 최대 3개까지 등록 가능합니다.';
     return errors;
   };
 
@@ -74,9 +75,11 @@ function PopupEdit() {
     formData.append('phoneNumber', phoneNumber || popup.phoneNumber);
     formData.append('startDate', startDate || popup.startDate);
     formData.append('endDate', endDate || popup.endDate);
-    formData.append('thumbnail', thumbnail || popup.thumbnail);
+    if (thumbnail) {
+      formData.append('thumbnail', thumbnail);
+    }
     images.forEach((image, index) => {
-      formData.append(`images[${index}]`, image);
+      formData.append(`images`, image);
     });
 
     try {
@@ -114,7 +117,6 @@ function PopupEdit() {
               type="text"
               className={`form-control ${formErrors.name ? 'is-invalid' : ''}`}
               id="name"
-              placeholder={popup.name}
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
@@ -126,7 +128,6 @@ function PopupEdit() {
               className={`form-control ${formErrors.description ? 'is-invalid' : ''}`}
               id="description"
               rows="3"
-              placeholder={popup.description}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             ></textarea>
@@ -138,7 +139,6 @@ function PopupEdit() {
               type="text"
               className={`form-control ${formErrors.address ? 'is-invalid' : ''}`}
               id="address"
-              placeholder={popup.address}
               value={address}
               onChange={(e) => setAddress(e.target.value)}
             />
@@ -150,7 +150,6 @@ function PopupEdit() {
               type="text"
               className={`form-control ${formErrors.managerName ? 'is-invalid' : ''}`}
               id="managerName"
-              placeholder={popup.managerName}
               value={managerName}
               onChange={(e) => setManagerName(e.target.value)}
             />
@@ -162,7 +161,6 @@ function PopupEdit() {
               type="text"
               className={`form-control ${formErrors.phoneNumber ? 'is-invalid' : ''}`}
               id="phoneNumber"
-              placeholder={popup.phoneNumber}
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
             />

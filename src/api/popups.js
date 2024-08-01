@@ -44,7 +44,7 @@ export const updatePopup = async (id, data) => {
         formData.append(key, data[key]);
       }
     }
-    const response = await axiosInstance.put(`/api/v1/popups/${id}`, formData, {
+    const response = await axiosInstance.put(`/api/v1/popups/${id}`, data, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
