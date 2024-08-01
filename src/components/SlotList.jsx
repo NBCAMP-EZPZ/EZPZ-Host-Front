@@ -57,8 +57,8 @@ function SlotList() {
     setPage(0);
   };
 
-  const handleSlotClick = (slotId) => {
-    navigate(`/host/reservations/slot/${slotId}`);
+  const handleSlotEdit = (slotId) => {
+    navigate(`/host/reservations/slot/${popupId}/${slotId}/edit`);
   };
 
   if (loading) {
@@ -93,14 +93,24 @@ function SlotList() {
             <th>Slot Date</th>
             <th>Slot Time</th>
             <th>Reserved Count</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           {slots.map((slot) => (
-            <tr key={slot.id} onClick={() => handleSlotClick(slot.id)} style={{ cursor: 'pointer' }}>
+            <tr key={slot.id}>
               <td>{slot.slotDate}</td>
               <td>{slot.slotTime}</td>
               <td>{slot.reservedCount}</td>
+              <td>
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => handleSlotEdit(slot.id)}
+                  style={{ backgroundColor: primaryColor, color: '#fff' }}
+                >
+                  슬롯 수정
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>

@@ -28,3 +28,13 @@ export const getSlot = async (popupId, slotId) => {
       throw error;
     }
   };
+
+// 슬롯 업데이트
+export const updateSlot = async (popupId, slotId, slotUpdateDto) => {
+  try {
+    const response = await axiosInstance.patch(`/api/v1/popups/${popupId}/slots/${slotId}`, slotUpdateDto);
+    return response.data.data; // 실제 데이터 구조에 따라 조정할 수 있습니다.
+  } catch (error) {
+    throw error;
+  }
+};
