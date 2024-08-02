@@ -27,7 +27,9 @@ function SlotList() {
       try {
         const data = await getPopups('APPROVED', 'all');
         setPopups(data.content || []);
-        setPopupId(data.content[0].popupId);
+        if (initialPopupId === 'all' && data.content.length > 0) {
+          setPopupId(data.content[0].popupId);
+        }
       } catch (error) {
         console.error('Failed to fetch popups:', error);
       }
@@ -47,6 +49,7 @@ function SlotList() {
       } catch (error) {
         if (error.response && (error.response.data.errorType === "EMPTY_PAGE_ELEMENTS" || error.response.data.errorType === "PAGE_NOT_FOUND")) {
           setError("조회할 슬롯 정보가 없습니다!");
+          setSlots([]);
         } else {
           setError("Request failed with status code " + (error.response ? error.response.status : error.message));
         }
@@ -115,45 +118,47 @@ function SlotList() {
         )}
       </div>
       {error && <div className="text-center text-danger mb-3">{error}</div>}
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Slot Date</th>
-            <th>Slot Time</th>
-            <th>Reserved Count</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {slots.map((slot) => (
-            <tr key={slot.id}>
-              <td>{slot.slotDate}</td>
-              <td>{slot.slotTime}</td>
-              <td>{slot.reservedCount}</td>
-              <td>
-                <button
-                  className="btn btn-warning me-2"
-                  onClick={() => navigate(`/host/reservations/slot/${popupId}/${slot.id}/edit`)}
-                >
-                  슬롯 수정
-                </button>
-                <button
-                  className="btn btn-danger me-2"
-                  onClick={() => handleDeleteSlot(slot.id)}
-                >
-                  슬롯 삭제
-                </button>
-                <button
-                  className="btn btn-info"
-                  onClick={() => handleSlotClick(slot.id)}
-                >
-                  예약 보기
-                </button>
-              </td>
+      {slots.length > 0 && (
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Slot Date</th>
+              <th>Slot Time</th>
+              <th>Reserved Count</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {slots.map((slot) => (
+              <tr key={slot.id}>
+                <td>{slot.slotDate}</td>
+                <td>{slot.slotTime}</td>
+                <td>{slot.reservedCount}</td>
+                <td>
+                  <button
+                    className="btn btn-warning me-2"
+                    onClick={() => navigate(`/host/reservations/slot/${popupId}/${slot.id}/edit`)}
+                  >
+                    슬롯 수정
+                  </button>
+                  <button
+                    className="btn btn-danger me-2"
+                    onClick={() => handleDeleteSlot(slot.id)}
+                  >
+                    슬롯 삭제
+                  </button>
+                  <button
+                    className="btn btn-info"
+                    onClick={() => handleSlotClick(slot.id)}
+                  >
+                    예약 보기
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
       <div className="pagination mt-4">
         <button
           className="btn pagination-btn"

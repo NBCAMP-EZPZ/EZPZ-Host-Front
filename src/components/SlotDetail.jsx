@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getSlotReservations } from '../api/slots';
+import { getSlot } from '../api/slots';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../components/styles/SlotDetail.css';
  
+
 function SlotDetail() {
   const { popupId, slotId } = useParams();
   const [reservations, setReservations] = useState([]);
@@ -11,51 +12,56 @@ function SlotDetail() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchSlotReservations = async () => {
+    const fetchSlotDetails = async () => {
+      setLoading(true);
       try {
-        const data = await getSlotReservations(popupId, slotId);
-        setReservations(data.data);
-        setLoading(false);
+        const data = await getSlot(popupId, slotId);
+        setReservations(data);
+        setError(null);
       } catch (error) {
-        setError(error.message);
+        if (error.response && error.response.data.errorType === "RESERVATION_NOT_FOUND") {
+          setError("예약 내역이 없습니다!");
+        } else {
+          setError("Failed to fetch reservations.");
+        }
+        setReservations([]);
+      } finally {
         setLoading(false);
       }
     };
 
-    fetchSlotReservations();
+    fetchSlotDetails();
   }, [popupId, slotId]);
 
   if (loading) {
-    return <div className="loading">Loading...</div>;
-  }
-
-  if (error) {
-    return <div className="error">Error: {error}</div>;
+    return <div>Loading...</div>;
   }
 
   return (
-    <div className="container">
-      <h3>예약 정보</h3>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>이름</th>
-            <th>인원 수</th>
-            <th>전화번호</th>
-          </tr>
-        </thead>
-        <tbody>
-          {reservations.map((reservation) => (
-            <tr key={reservation.id}>
-              <td>{reservation.id}</td>
-              <td>{reservation.name}</td>
-              <td>{reservation.numberOfPersons}</td>
-              <td>{reservation.phoneNumber}</td>
+    <div className="container mt-5">
+      {error && <div className="text-center text-danger mb-3">{error}</div>}
+      {reservations.length > 0 && (
+        <table className="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Number of Persons</th>
+              <th>Phone Number</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {reservations.map((reservation) => (
+              <tr key={reservation.id}>
+                <td>{reservation.id}</td>
+                <td>{reservation.name}</td>
+                <td>{reservation.numberOfPersons}</td>
+                <td>{reservation.phoneNumber}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }

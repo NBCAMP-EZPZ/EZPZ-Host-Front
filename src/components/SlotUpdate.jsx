@@ -1,34 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getSlot, updateSlot } from '../api/slots';
+import { updateSlot } from '../api/slots';
 import 'bootstrap/dist/css/bootstrap.min.css';
- 
+
 function SlotUpdate() {
   const { popupId, slotId } = useParams();
   const navigate = useNavigate();
   const [availableCount, setAvailableCount] = useState('');
   const [totalCount, setTotalCount] = useState('');
   const [slotStatus, setSlotStatus] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [formErrors, setFormErrors] = useState({});
-
-  useEffect(() => {
-    const fetchSlotDetail = async () => {
-      try {
-        const data = await getSlot(popupId, slotId);
-        setAvailableCount(data.availableCount);
-        setTotalCount(data.totalCount);
-        setSlotStatus(data.slotStatus);
-        setLoading(false);
-      } catch (error) {
-        setError(error.message);
-        setLoading(false);
-      }
-    };
-
-    fetchSlotDetail();
-  }, [popupId, slotId]);
 
   const validateForm = () => {
     const errors = {};
@@ -66,14 +47,6 @@ function SlotUpdate() {
       }
     }
   };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
 
   return (
     <div className="container mt-5">
