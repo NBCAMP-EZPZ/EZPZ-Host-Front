@@ -3,8 +3,7 @@ import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { createSlot } from '../api/slots'; // Assuming you have this API function
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const primaryColor = '#071952';
-
+ 
 function SlotCreate() {
   const { popupId } = useParams();
   const location = useLocation();

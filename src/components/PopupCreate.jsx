@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createPopup } from '../api/popups'; // Assuming you have this API function
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-const primaryColor = '#071952';
-
+ 
 function PopupCreate() {
   const navigate = useNavigate();
   const [name, setName] = useState('');

@@ -3,9 +3,7 @@ import { useParams } from 'react-router-dom';
 import { getSlot } from '../api/slots';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../components/styles/ReservationList.css';
-
-const primaryColor = '#071952';
-
+ 
 function ReservationList() {
   const { popupId, slotId } = useParams();
   const [reservations, setReservations] = useState([]);

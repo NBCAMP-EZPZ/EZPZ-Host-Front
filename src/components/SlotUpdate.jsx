@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getSlot, updateSlot } from '../api/slots';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-const primaryColor = '#071952';
-
+ 
 function SlotUpdate() {
   const { popupId, slotId } = useParams();
   const navigate = useNavigate();

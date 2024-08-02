@@ -3,9 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { createItem } from '../api/items'; // getPopups 함수 추가
 import { getPopups } from '../api/popups';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-const primaryColor = '#071952';
-
+ 
 function ItemCreate() {
   const navigate = useNavigate();
   const [popups, setPopups] = useState([]);

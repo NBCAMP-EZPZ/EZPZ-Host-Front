@@ -3,9 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getItemDetail, changeItemStatus } from '../api/items';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../components/styles/ItemInfo.css';
-
-const primaryColor = '#071952';
-
+ 
 function ItemInfo() {
   const { itemId } = useParams();
   const navigate = useNavigate();
@@ -48,6 +46,14 @@ function ItemInfo() {
     }
   };
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+  
   return (
     <div className="container mt-5">
       <div className="card">

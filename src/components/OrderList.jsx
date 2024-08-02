@@ -5,9 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../components/styles/OrderList.css';
 
-const primaryColor = '#071952';
-const headerColor = '#5BC8F7'; // 헤더 색상
-
+const primaryColor = '#071952'; 
 function OrderList() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);

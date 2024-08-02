@@ -84,7 +84,7 @@ function PopupInfo() {
               <img
                 key={index}
                 src={image.url}
-                alt={`Popup image ${index + 1}`}
+                alt={`Popup ${index + 1}`}
                 className="popup-image"
                 onClick={() => handleImageClick(image)}
                 style={{ cursor: 'pointer' }}
