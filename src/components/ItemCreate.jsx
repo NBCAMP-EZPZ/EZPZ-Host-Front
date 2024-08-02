@@ -21,7 +21,7 @@ function ItemCreate() {
         const data = await getPopups('APPROVED', 'all');
         setPopups(data.content);
         if (data.content.length > 0) {
-          setSelectedPopupId(data.content[0].id); // 기본으로 첫 번째 팝업 선택
+          setSelectedPopupId(data.content[0].popupId); // 기본으로 첫 번째 팝업 선택
         }
       } catch (error) {
         console.error("Failed to fetch popups", error);
