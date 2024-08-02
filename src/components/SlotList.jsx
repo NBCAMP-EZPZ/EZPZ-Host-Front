@@ -92,10 +92,6 @@ function SlotList() {
     return <div>Loading...</div>;
   }
 
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
   const startPage = Math.floor(page / 10) * 10;
   const endPage = Math.min(startPage + 10, totalPages);
 
