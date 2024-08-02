@@ -23,15 +23,16 @@ function Header({ isLoggedIn }) {
 
   return (
     <header className="header d-flex justify-content-between align-items-center p-3">
-      <h1 className="header-title">
-        <Link to="/host" className="header-link">EZPZ</Link>
-      </h1>
+      <div className="d-flex align-items-center">
+        <h1 className="header-title">
+          <Link to="/host" className="header-link">EZPZ</Link>
+        </h1>
+        <span className="host-label">Host</span> {/* 노란색 Host 라벨 */}
+      </div>
       <nav className="nav-links">
         {isLoggedIn ? (
           <>
             <DropdownButton className="m-2" title={<><FaUser /> 마이 페이지</>} alignRight>
-              <Dropdown.Item as={Link} to="/host/orders">주문 목록 보기</Dropdown.Item>
-              <Dropdown.Item as={Link} to="/host/reservations">예약 내역 보기</Dropdown.Item>
               <Dropdown.Divider />
               <Dropdown.Item onClick={handleLogout}>로그아웃</Dropdown.Item>
             </DropdownButton>

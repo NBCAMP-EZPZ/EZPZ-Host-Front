@@ -11,13 +11,25 @@
 }
 
 .header-title {
-  font-size: 1.5rem;
+  font-size: 2rem;
+  margin: 0;
 }
 
 .header-link {
-  color: white;
   text-decoration: none;
+  color: inherit;
 }
+
+.host-label {
+  background-color: #FFD700; /* 노란색 배경 */
+  color: #000; /* 검은색 글자 */
+  padding: 0.2rem 0.5rem;
+  margin-left: 1rem;
+  border-radius: 0.2rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
 
 .nav-links .dropdown-toggle::after {
   display: none;

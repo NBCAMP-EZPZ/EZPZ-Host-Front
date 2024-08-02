@@ -32,7 +32,7 @@ function App() {
 
   return (
     <Router>
-      <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} /> {/* setIsLoggedIn 전달 */}
+      <Header isLoggedIn={isLoggedIn} /> {/* setIsLoggedIn 전달 */}
       <Routes>
         <Route path="/host" element={isLoggedIn ? <PopupList /> : <Navigate to="/host/login" />} />
         <Route path="/host/login" element={<LoginForm setIsLoggedIn={setIsLoggedIn} />} /> {/* setIsLoggedIn 전달 */}
