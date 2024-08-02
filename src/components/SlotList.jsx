@@ -27,6 +27,7 @@ function SlotList() {
       try {
         const data = await getPopups('APPROVED', 'all');
         setPopups(data.content || []);
+        setPopupId(data.content[0].popupId);
       } catch (error) {
         console.error('Failed to fetch popups:', error);
       }
