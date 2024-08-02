@@ -1,12 +1,10 @@
-// src/components/LoginForm.jsx
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../api/auth';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../components/styles/LoginForm.css';
 
-function LoginForm() {
+function LoginForm({ setIsLoggedIn }) { // setIsLoggedIn 추가
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -19,8 +17,8 @@ function LoginForm() {
       const data = await login(username, password);
       localStorage.setItem('accessToken', data.accessToken); // 토큰 저장
       setMessage('Login successful!');
+      setIsLoggedIn(true); // 로그인 상태 업데이트
       navigate('/host'); // 로그인 성공 후 메인 페이지로 이동
-      window.location.reload(); // 페이지 새로고침
     } catch (error) {
       setMessage('Login failed. Please check your credentials and try again.');
     }

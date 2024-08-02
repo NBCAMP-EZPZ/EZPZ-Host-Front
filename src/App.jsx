@@ -18,6 +18,7 @@ import ReservationList from './components/ReservationList';
 import SlotCreate from './components/SlotCreate';
 import SlotUpdate from './components/SlotUpdate';
 import SlotDetail from './components/SlotDetail';
+import PrivateRoute from './components/PrivateRoute'; // PrivateRoute import
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 관리
@@ -32,26 +33,31 @@ function App() {
 
   return (
     <Router>
-      <Header isLoggedIn={isLoggedIn} /> {/* setIsLoggedIn 전달 */}
+      <Header isLoggedIn={isLoggedIn} />
       <Routes>
-        <Route path="/host" element={isLoggedIn ? <PopupList /> : <Navigate to="/host/login" />} />
-        <Route path="/host/login" element={<LoginForm setIsLoggedIn={setIsLoggedIn} />} /> {/* setIsLoggedIn 전달 */}
+        <Route path="/host/login" element={<LoginForm setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="/host/signup" element={<SignupForm />} />
-        <Route path="/host/popup/:id" element={isLoggedIn ? <PopupDetail /> : <Navigate to="/host/login" />} />
-        <Route path="/host/popup/:id/edit" element={isLoggedIn ? <PopupEdit /> : <Navigate to="/host/login" />} />
-        <Route path="/host/orders" element={isLoggedIn ? <OrderList /> : <Navigate to="/host/login" />} />
-        <Route path="/host/order/:orderId" element={isLoggedIn ? <OrderInfo /> : <Navigate to="/host/login" />} />
-        <Route path="/host/reservations" element={isLoggedIn ? <SlotList /> : <Navigate to="/host/login" />} />
-        <Route path="/host/items" element={isLoggedIn ? <ItemList /> : <Navigate to="/host/login" />} />
-        <Route path="/host/item/:itemId" element={isLoggedIn ? <ItemInfo /> : <Navigate to="/host/login" />} />
-        <Route path="/host/item/:itemId/edit" element={isLoggedIn ? <ItemEdit /> : <Navigate to="/host/login" />} />
-        <Route path="/host/item/create" element={isLoggedIn ? <ItemCreate /> : <Navigate to="/host/login" />} />
-        <Route path="/host/popup/create" element={isLoggedIn ? <PopupCreate /> : <Navigate to="/host/login" />} />
-        <Route path="/host/reservations/create" element={isLoggedIn ? <SlotCreate /> : <Navigate to="/host/login" />} />
-        <Route path="/host/reservations/slot/:popupId/:slotId/edit" element={isLoggedIn ? <SlotUpdate /> : <Navigate to="/host/login" />} />
-        <Route path="/host/popup/slots" element={isLoggedIn ? <SlotList /> : <Navigate to="/host/login" />} />
-        <Route path="/host/popup/:popupId/slot/:slotId" element={isLoggedIn ? <ReservationList /> : <Navigate to="/host/login" />} />
-        <Route path="/host/reservations/slot/:popupId/:slotId" element={isLoggedIn ? <SlotDetail /> : <Navigate to="/host/login" />} />
+        
+        <Route path="/*" element={<PrivateRoute isLoggedIn={isLoggedIn}>
+          <Routes>
+            <Route path="/host" element={<PopupList />} />
+            <Route path="/host/popup/:id" element={<PopupDetail />} />
+            <Route path="/host/popup/:id/edit" element={<PopupEdit />} />
+            <Route path="/host/orders" element={<OrderList />} />
+            <Route path="/host/order/:orderId" element={<OrderInfo />} />
+            <Route path="/host/reservations" element={<SlotList />} />
+            <Route path="/host/items" element={<ItemList />} />
+            <Route path="/host/item/:itemId" element={<ItemInfo />} />
+            <Route path="/host/item/:itemId/edit" element={<ItemEdit />} />
+            <Route path="/host/item/create" element={<ItemCreate />} />
+            <Route path="/host/popup/create" element={<PopupCreate />} />
+            <Route path="/host/reservations/create" element={<SlotCreate />} />
+            <Route path="/host/reservations/slot/:popupId/:slotId/edit" element={<SlotUpdate />} />
+            <Route path="/host/popup/slots" element={<SlotList />} />
+            <Route path="/host/popup/:popupId/slot/:slotId" element={<ReservationList />} />
+            <Route path="/host/reservations/slot/:popupId/:slotId" element={<SlotDetail />} />
+          </Routes>
+        </PrivateRoute>} />
       </Routes>
     </Router>
   );
