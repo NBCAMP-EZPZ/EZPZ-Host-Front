@@ -114,6 +114,7 @@ function SlotList() {
           </button>
         )}
       </div>
+      {error && <div className="text-center text-danger mb-3">{error}</div>}
       <table className="table">
         <thead>
           <tr>
