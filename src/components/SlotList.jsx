@@ -45,7 +45,11 @@ function SlotList() {
         setTotalPages(data.totalPages);
         setError(null);
       } catch (error) {
-        setError("Request failed with status code " + (error.response ? error.response.status : error.message));
+        if (error.response && (error.response.data.errorType === "EMPTY_PAGE_ELEMENTS" || error.response.data.errorType === "PAGE_NOT_FOUND")) {
+          setError("조회할 슬롯 정보가 없습니다!");
+        } else {
+          setError("Request failed with status code " + (error.response ? error.response.status : error.message));
+        }
       } finally {
         setLoading(false);
       }
