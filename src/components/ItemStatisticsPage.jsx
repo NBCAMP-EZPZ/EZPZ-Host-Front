@@ -14,7 +14,7 @@ import {
   TimeScale
 } from 'chart.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './styles/StatisticsPage.css';
+import './styles/ItemStatisticsPage.css';
 
 ChartJS.register(
   CategoryScale,
@@ -27,7 +27,7 @@ ChartJS.register(
   TimeScale
 );
 
-function StatisticsPage() {
+function ItemStatisticsPage() {
   const [items, setItems] = useState([]);
   const [selectedItem, setSelectedItem] = useState('');
   const [salesData, setSalesData] = useState([]);
@@ -59,10 +59,16 @@ function StatisticsPage() {
           const data = await getMonthlySalesStatistics(selectedItem);
           const reversedData = data.reverse(); // 최신월이 오른쪽에 오도록 데이터 순서 뒤집기
           setSalesData(reversedData);
-          let uniqueYears = [...new Set(reversedData.map(item => item.year))];
-          uniqueYears.sort((a, b) => b - a); // 연도를 내림차순으로 정렬
-          setYears(uniqueYears);
-          setSelectedYear(uniqueYears[0]); // 가장 최근 연도를 기본값으로 설정
+
+          if (reversedData.length > 0) {
+            let uniqueYears = [...new Set(reversedData.map(item => item.year))];
+            uniqueYears.sort((a, b) => b - a); // 연도를 내림차순으로 정렬
+            setYears(uniqueYears);
+            setSelectedYear(uniqueYears[0]); // 가장 최근 연도를 기본값으로 설정
+          } else {
+            setYears([]);
+            setSelectedYear(''); // 선택된 연도 초기화
+          }
         } catch (error) {
           setError('통계 자료를 불러오는데 실패했습니다.');
         }
@@ -121,7 +127,7 @@ function StatisticsPage() {
 
   return (
     <div className="container mt-5">
-      <h3 className="mb-4 title-spacing">통계 페이지</h3>
+      <h3 className="mb-4 title-spacing">상품별 통계 조회</h3>
       <div className="dropdown-container mb-4">
         {items.length === 0 ? (
           <div className="error-message">통계 자료를 조회할 상품이 없습니다.</div>
@@ -134,25 +140,33 @@ function StatisticsPage() {
                 </option>
               ))}
             </select>
-            <select className="form-select custom-dropdown" value={selectedYear} onChange={handleYearChange}>
-              {years.map((year) => (
-                <option key={year} value={year}>
-                  {year}
-                </option>
-              ))}
-            </select>
+            {years.length > 0 && (
+              <select className="form-select custom-dropdown" value={selectedYear} onChange={handleYearChange}>
+                {years.map((year) => (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                ))}
+              </select>
+            )}
           </>
         )}
       </div>
       {error ? (
         <div className="error-message">{error}</div>
       ) : (
-        <div className="chart-container">
-          <Line data={countChartData} options={options} />
-        </div>
+        <>
+          {displayedData.length === 0 ? (
+            <div className="error-message">통계 자료가 존재하지 않습니다.</div>
+          ) : (
+            <div className="chart-container">
+              <Line data={countChartData} options={options} />
+            </div>
+          )}
+        </>
       )}
     </div>
   );
 }
 
-export default StatisticsPage;
+export default ItemStatisticsPage;

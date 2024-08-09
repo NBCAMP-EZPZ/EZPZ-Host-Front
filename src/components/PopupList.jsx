@@ -63,6 +63,10 @@ function PopupList() {
     navigate('/host/popup/create');
   };
 
+  const handleViewStatistics = () => {
+    navigate('/host/Popupstatistics');
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -91,9 +95,22 @@ function PopupList() {
             <option value="rejected">반려</option>
           </select>
         </div>
-        <button className="btn btn-primary ms-auto" onClick={handleCreatePopup} style={{ backgroundColor: primaryColor, color: '#fff' }}>
-          팝업 등록
-        </button>
+        <div className="ms-auto d-flex">
+          <button 
+            className="btn btn-secondary me-2" 
+            onClick={handleViewStatistics} 
+            style={{ backgroundColor: '#6c757d', color: '#fff' }}
+          >
+            통계 보기
+          </button>
+          <button 
+            className="btn btn-primary" 
+            onClick={handleCreatePopup} 
+            style={{ backgroundColor: primaryColor, color: '#fff' }}
+          >
+            팝업 등록
+          </button>
+        </div>
       </div>
       <div className="popup-list">
         {error ? (

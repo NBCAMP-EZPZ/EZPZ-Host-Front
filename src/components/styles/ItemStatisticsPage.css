@@ -1,0 +1,83 @@
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.title-spacing {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  text-align: left;
+  margin-bottom: 1rem; /* 제목과 드롭다운 사이에 여백 추가 */
+}
+
+.dropdown-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.custom-dropdown {
+  width: 250px;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+.btn-info {
+  height: 100%; /* 버튼의 높이를 드롭다운과 맞추기 위해 설정 */
+  white-space: nowrap; /* 버튼 내 텍스트 줄바꿈 방지 */
+}
+
+.order-list {
+  margin-top: 1rem;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 10px; /* 테두리를 둥글게 */
+  overflow: hidden; /* 테두리 둥글게 유지 */
+}
+
+.table-header {
+  background-color: #5BC8F7; /* 헤더 색상 */
+  color: #fff;
+}
+
+.table th, .table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.table tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination-btn {
+  min-width: 50px;
+  height: 40px;
+  margin: 0 2px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px; /* 테두리를 둥글게 */
+}
+
+.pagination-btn.btn-current {
+  background-color: #071952;
+  color: #fff;
+}
+
+.error-message {
+  text-align: center;
+  margin-top: 1rem;
+  color: red;
+  font-weight: bold;
+}

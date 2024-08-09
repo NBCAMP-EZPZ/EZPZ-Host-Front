@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../components/styles/OrderList.css';
 
 const primaryColor = '#071952'; 
+
 function OrderList() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -144,10 +145,7 @@ function OrderList() {
             </select>
           </div>
         ) : null}
-      </div>
-      <div className="d-flex justify-content-between">
-        <div></div> {/* 왼쪽 공간 비우기 */}
-        <button className="btn btn-info" onClick={() => navigate('/host/statistics')}>통계 보기</button>
+        <button className="btn btn-info ms-auto" onClick={() => navigate('/host/Itemstatistics')}>통계 보기</button>
       </div>
       <div className="order-list">
         {error ? (

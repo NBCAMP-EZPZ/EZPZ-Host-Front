@@ -6,3 +6,10 @@ export const getMonthlySalesStatistics = async (itemId) => {
     });
     return response.data.data;
   };
+
+export const getDailySalesStatistics = async (popupId) => {
+    const response = await axiosInstance.get(`/api/v1//sales-statistics/recent-month`, {
+      params: { popupId }
+    });
+    return response.data.data;
+  };

@@ -1,0 +1,40 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .title-spacing {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    text-align: left; /* 제목을 왼쪽 정렬 */
+  }
+  
+  .dropdown-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .custom-dropdown {
+    width: 250px;
+    padding: 0.5rem;
+    font-size: 1rem;
+  }
+  
+  .error-message {
+    color: red;
+    font-size: 1rem;
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  .chart-container {
+    margin-top: 2rem;
+  }
+  
+  .chart-container .chartjs-render-monitor {
+    max-height: 400px;
+  }
+  
