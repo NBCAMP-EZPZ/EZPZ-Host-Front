@@ -19,6 +19,7 @@ import SlotCreate from './components/SlotCreate';
 import SlotUpdate from './components/SlotUpdate';
 import SlotDetail from './components/SlotDetail';
 import PrivateRoute from './components/PrivateRoute'; // PrivateRoute import
+import StatisticsPage from './components/StatisticsPage';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 관리
@@ -56,6 +57,7 @@ function App() {
             <Route path="/host/popup/slots" element={<SlotList />} />
             <Route path="/host/popup/:popupId/slot/:slotId" element={<ReservationList />} />
             <Route path="/host/reservations/slot/:popupId/:slotId" element={<SlotDetail />} />
+            <Route path="/host/statistics" element={<StatisticsPage />} />
           </Routes>
         </PrivateRoute>} />
       </Routes>

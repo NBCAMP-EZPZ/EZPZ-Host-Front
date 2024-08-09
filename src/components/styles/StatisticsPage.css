@@ -1,0 +1,17 @@
+.container {
+  margin-top: 20px;
+}
+
+.dropdown-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.custom-dropdown {
+  width: 200px;
+}
+
+.chart-container {
+  margin-top: 20px;
+}

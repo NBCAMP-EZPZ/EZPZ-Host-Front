@@ -145,6 +145,10 @@ function OrderList() {
           </div>
         ) : null}
       </div>
+      <div className="d-flex justify-content-between">
+        <div></div> {/* 왼쪽 공간 비우기 */}
+        <button className="btn btn-info" onClick={() => navigate('/host/statistics')}>통계 보기</button>
+      </div>
       <div className="order-list">
         {error ? (
           <div className="error-message">{error}</div>
