@@ -56,7 +56,7 @@ function PopupStatisticsPage() {
           
             // 최근 30일간의 날짜를 생성
             const today = dayjs();
-            const last30Days = Array.from({ length: 30 }, (_, i) =>
+            const last30Days = Array.from({ length: 31 }, (_, i) =>
               today.subtract(i, 'day').format('YYYY-MM-DD')
             ).reverse();
           
