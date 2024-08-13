@@ -7,6 +7,7 @@ const axiosInstance = axios.create({
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
+    'Referer': 'https://host.ezpzz.store/' // 추가된 Referer 헤더
   },
 });
 
